@@ -20,6 +20,9 @@ jobs:
     needs: [secrets]
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          path: .
       - name: Semgrep (bloqueante)
         run: |
           docker run --rm -v "$PWD:/src" returntocorp/semgrep:latest \
