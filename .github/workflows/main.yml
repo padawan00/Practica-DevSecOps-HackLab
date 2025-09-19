@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 defaults:
   run:
-    working-directory: ./apps
+    working-directory: /workspaces/Practica-DevSecOps-HackLab/actions-runner/_work/Practica-DevSecOps-HackLab
 
 jobs:
   secrets:
