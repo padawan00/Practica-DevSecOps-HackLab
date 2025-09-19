@@ -9,7 +9,7 @@ jobs:
     runs-on: self-hosted
     defaults:
       run:
-        working-directory: /workspaces/Practica-DevSecOps-HackLab/actions-runner/_work/Practica-DevSecOps-HackLab
+        working-directory: /home/codespace/
     steps:
       - uses: actions/checkout@v4
         with: { fetch-depth: 0 }   # para análisis que miran historial
