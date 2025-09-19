@@ -1,6 +1,11 @@
 name: devsecops-pipeline
 on: [push, pull_request]
 
+
+defaults:
+  run:
+    working-directory: ./apps
+
 jobs:
   secrets:
     name: Secrets scanning (Gitleaks)
