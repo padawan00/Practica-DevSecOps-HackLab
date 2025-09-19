@@ -1,0 +1,32 @@
+name: devsecops-pipeline
+on: [push, pull_request]
+
+jobs:
+  secrets:
+    name: Secrets scanning (Gitleaks)
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }   # para análisis que miran historial
+      - name: Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # Si usas un gitleaks.toml propio, añade inputs/vars según la acción
+
+  sast:
+    name: SAST (Semgrep)
+    runs-on: self-hosted
+    needs: [secrets]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Semgrep (bloqueante)
+        run: |
+          docker run --rm -v "$PWD:/src" returntocorp/semgrep:latest \
+            semgrep scan --error --config p/ci --config .semgrep
+      - name: Export SARIF (para pestaña Security)
+        run: |
+          docker run --rm -v "$PWD:/src" returntocorp/semgrep:latest \
+            semgrep scan --config p/ci --config .semgrep --sarif -o semgrep.sarif || true
+      - uses: github/codeql-action/upload-sarif@v3
+        with: { sarif_file: semgrep.sarif }
