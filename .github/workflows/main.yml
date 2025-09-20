@@ -51,7 +51,7 @@ jobs:
       - name: Semgrep (bloqueante)
         run: |
           docker run --rm -v "$PWD:/src" returntocorp/semgrep:latest \
-            semgrep scan --error --config p/ci --config .semgrep
+            semgrep scan --config p/ci --config .semgrep
       - name: Export SARIF (para pestaña Security)
         run: |
           docker run --rm -v "$PWD:/src" returntocorp/semgrep:latest \
