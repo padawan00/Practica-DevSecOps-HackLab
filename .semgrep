@@ -1,0 +1,10 @@
+# .semgrep
+rules:
+  - id: hardcoded-password
+    pattern: password = "$PASS"
+    message: "Hardcoded password detected. Use environment variables or a secrets manager instead."
+    languages: [python]
+    severity: ERROR
+    metadata:
+      cwe: "CWE-798: Use of Hard-coded Credentials"
+      owasp: "A2: Broken Authentication"
